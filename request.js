@@ -1,3 +1,5 @@
+// depreciated
+
 // var client_id = '54cfccda4e9943e5a50fcbe7fe29b695';
 // var client_secret = '8742fe77513d42809fe3b6cb1acaa30a';
 
