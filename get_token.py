@@ -4,7 +4,11 @@ import requests
 
 url = "https://accounts.spotify.com/api/token"
 client_id = '54cfccda4e9943e5a50fcbe7fe29b695'
-client_secret = '8742fe77513d42809fe3b6cb1acaa30a'
+file_path = 'client_secret.txt'
+with open(file_path, 'r') as file:
+    line = file.readline().rstrip("\n")
+    client_secret = line
+
 
 payload = {
     'grant_type': 'client_credentials',
