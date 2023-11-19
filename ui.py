@@ -11,11 +11,7 @@ def build(sp):
     with st.sidebar:
         pl = playlist_interact(dfp)  # returns names of selected
 
-    print(list(pl['0']))
-
     playlist_links = [x['external_urls']['spotify'] for x in dic['items'] if x['name'] in list(pl['0'])]
-
-    print('playlist_links:', playlist_links)
 
     df = get_data(sp, playlist_links)
 
