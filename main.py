@@ -29,7 +29,7 @@ def main():
     except:
         print('Authentication failed, aborting!')
 
-    ui.build(sp)
+    selected_songs = ui.build(sp)
 
 
 if __name__=='__main__':
