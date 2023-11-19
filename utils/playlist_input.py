@@ -11,7 +11,8 @@ def playlist_interact(df):
         df_with_selections,
         hide_index=True,
         column_config={"Select": st.column_config.CheckboxColumn(required=True)},
-        disabled=df.columns
+        disabled=df.columns,
+        # column_config=column_config
     )
 
     # Filter the dataframe using the temporary column, then drop the column

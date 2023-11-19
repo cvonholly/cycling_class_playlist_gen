@@ -6,12 +6,17 @@ from utils.get import *
 
 
 def build(sp):
-    df = get_data(sp,
-                'https://open.spotify.com/playlist/37i9dQZF1DX6J5NfMJS675?si=aca32942f2b44c15')
-
-    st.dataframe(df)
-
-    dfp = get_profile_playlists(sp)
+    dfp, dic = get_profile_playlists(sp)
 
     with st.sidebar:
-        playlist_interact(dfp)
+        pl = playlist_interact(dfp)  # returns names of selected
+
+    print(list(pl['0']))
+
+    playlist_links = [x['external_urls']['spotify'] for x in dic['items'] if x['name'] in list(pl['0'])]
+
+    print('playlist_links:', playlist_links)
+
+    df = get_data(sp, playlist_links)
+
+    st.dataframe(df)
