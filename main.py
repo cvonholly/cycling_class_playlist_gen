@@ -1,8 +1,10 @@
 from utils.get_token import scope, client_id, client_secret, redirect_uri
 import spotipy.util as util
+from spotipy.oauth2 import SpotifyClientCredentials
 import ui
 import os
 import spotipy
+import time
 
 
 # scope = 'user-library-read'
@@ -21,15 +23,20 @@ def main():
         token = util.prompt_for_user_token(username, scope,
                                    client_id=client_id,
                                    client_secret=client_secret,
-                                   redirect_uri=redirect_uri)
+                                   redirect_uri=redirect_uri,
+                                   show_dialog=True
+                                   )
         if token:
             sp = spotipy.Spotify(auth=token)
         else:
             print('Authenticaion failed, aborting')
+        # sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
     except:
         print('Authentication failed, aborting!')
 
-    selected_songs = ui.build(sp)
+    time.sleep(3)
+
+    selected_songs = ui.build(sp, user=username)
 
 
 if __name__=='__main__':

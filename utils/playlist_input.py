@@ -10,9 +10,10 @@ def playlist_interact(df):
     edited_df = st.data_editor(
         df_with_selections,
         hide_index=True,
-        column_config={"Select": st.column_config.CheckboxColumn(required=True)},
-        disabled=df.columns,
-        # column_config=column_config
+        column_config={"Select": st.column_config.CheckboxColumn(required=True),
+                       '0': 'Playlist'
+                       },
+        disabled=df.columns
     )
 
     # Filter the dataframe using the temporary column, then drop the column

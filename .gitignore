@@ -1,5 +1,6 @@
 node_modules/
 client_secret.txt
+notebooks/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

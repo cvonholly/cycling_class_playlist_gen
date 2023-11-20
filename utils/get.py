@@ -21,9 +21,9 @@ def get_profile_playlists(sp) -> pd.DataFrame():
 def get_data(sp,
              pl_url: [],   # list of urls
              headers=['tempo', 'duration_ms'],   # headers to get
-             headers_af=['name'],
+             headers_af=['name', 'uri'],
              header_names={'tempo': 'BPM', 'duration_ms': 'length'},
-             headers_af_names={'name': 'Name'},
+             headers_af_names={'name': 'Name', 'uri': 'uri'},
              dtypes={'BPM': int, 'Name': str},
              multiplies={'duration_ms': 1e-3},
              get_artist=True
@@ -36,6 +36,9 @@ def get_data(sp,
     for p in pl_url:
         df = pd.DataFrame()
         playlist_tracks = sp.playlist_tracks(p)
+
+        if len(playlist_tracks['items'])==0:  # if playlist empty
+            continue
 
         for h in headers_af:
             x = [track['track'][h] for track in playlist_tracks['items']]

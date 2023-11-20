@@ -3,17 +3,25 @@ import streamlit as st
 import utils.get_token as gt # from ..notebooks.src import client_id, client_secret
 from utils.playlist_input import *
 from utils.get import *
+from utils.playlist_output import get_output_playlist
+# import spotipy.util as util
+# import spotipy
+
+# from utils.get_token import cp_scope, client_id, client_secret, cp_redirect_uri, cp_scope
 
 
-def build(sp):
+def build(sp, user):
     col1, col2 = st.columns([.85,.15])
 
     dfp, dic = get_profile_playlists(sp)
 
     with st.sidebar:
-        pl = playlist_interact(dfp)  # returns names of selected
+        try:
+            pl = list(playlist_interact(dfp)['0'])  # returns names of selected
+        except:
+            pl = []
 
-    playlist_links = [x['external_urls']['spotify'] for x in dic['items'] if x['name'] in list(pl['0'])]
+    playlist_links = [x['external_urls']['spotify'] for x in dic['items'] if x['name'] in pl]
 
     df = get_data(sp, playlist_links)
 
@@ -25,17 +33,23 @@ def build(sp):
         edited_df = st.data_editor(
             df_with_selections,
             hide_index=True,
-            column_config={"Select": st.column_config.CheckboxColumn(required=True)},
+            column_config={"Select": st.column_config.CheckboxColumn(required=True),
+                           'uri': None},
             disabled=df.columns,
             # column_config=column_config
         )
 
+    selected_rows = edited_df[edited_df.Select]
+    out = selected_rows.drop('Select', axis=1)
+
     # add generate playlist button
     with col2:
-        st.button('Generate Playlist', )
+        button = st.button('Generate Playlist')
+        if button:
+            get_output_playlist(sp,
+                                user, 
+                                tracks=out)
 
-    # Filter the dataframe using the temporary column, then drop the column
-    selected_rows = edited_df[edited_df.Select]
-    return selected_rows.drop('Select', axis=1)
+    return out
 
     # st.dataframe(edited_df)
