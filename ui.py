@@ -118,9 +118,6 @@ class UI():
                     },
                     disabled=self.tracks.columns
                 )
-                # TODO: add category to tracks
-                # selected_rows = edited_df[edited_df.Select]
-                # tracks = selected_rows.drop('cate', axis=1)  # selceted tracks
                 if len(self.tracks) > 0:
                     st.session_state['final_tracks'] = self.tracks
 
