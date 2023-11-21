@@ -13,10 +13,13 @@ def convert_seconds(seconds):
 
 
 
-def get_profile_playlists(sp) -> pd.DataFrame():
+def get_profile_playlists(sp) -> (pd.DataFrame(), dict):
+    """
+    returns current user playlists
+    """
     dic = sp.current_user_playlists(limit=20)
     playlist_names = [x['name'] for x in dic['items']]
-    return pd.DataFrame(playlist_names), dic
+    return (pd.DataFrame(playlist_names), dic)
 
 def get_data(sp,
              pl_url: [],   # list of urls

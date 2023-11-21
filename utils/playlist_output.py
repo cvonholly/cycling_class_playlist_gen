@@ -16,4 +16,4 @@ def get_output_playlist(sp,
         list(tracks['uri'])
     )
     
-    return playlist
+    return playlist, tracks

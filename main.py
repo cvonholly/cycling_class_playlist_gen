@@ -5,15 +5,8 @@ import ui
 import os
 import spotipy
 import time
+from ui import UI
 
-
-# scope = 'user-library-read'
-# url = "https://accounts.spotify.com/api/token"
-# client_id = '54cfccda4e9943e5a50fcbe7fe29b695'
-# file_path = os.getcwd() + os.sep + 'client_secret.txt'
-# with open(file_path, 'r') as file:
-#     line = file.readline().rstrip("\n")
-#     client_secret = line
 
 # input
 username = 'carlvonholly'
@@ -36,7 +29,15 @@ def main():
 
     time.sleep(3)
 
-    selected_songs = ui.build(sp, user=username)
+    ui = UI(sp, username, True)
+
+    ui.build()
+
+    # state_1 = ui.build(sp, user=username)
+
+    # if state_1: # switch screen
+    #     print('We are in state_1: ', state_1)
+    #     pass
 
 
 if __name__=='__main__':
