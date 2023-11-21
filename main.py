@@ -29,7 +29,7 @@ def main():
 
     time.sleep(3)
 
-    ui = UI(sp, username, True)
+    ui = UI(sp, username)
 
     ui.build()
 
