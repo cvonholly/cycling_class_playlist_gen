@@ -1,8 +1,8 @@
 # packages
 import streamlit as st
-import utils.get_token as gt # from ..notebooks.src import client_id, client_secret
 from utils.playlist_input import *
 from utils.get import *
+import numpy as np
 
 
 
@@ -26,6 +26,15 @@ class UI():
         self.playlist, self.tracks = None, pd.DataFrame()
         self.new_pl_name = 'New Test Playlist'
         self.pl_public, self.pl_description = True, ''
+        self.zones = [
+                                "📝 Z1",
+                                "🔛 Z2",
+                                "🔋 Z3",
+                                "📒 Z4",
+                                "📕 Z5",
+                        ]
+
+        self.colors = None
 
         if 'clicked' not in st.session_state:
             st.session_state.clicked = False
@@ -33,9 +42,9 @@ class UI():
         if 'tracks' not in st.session_state:
             st.session_state['tracks'] = pd.DataFrame()
 
-    # depreciated
-    # def change_view(self):
-    #     self.view_1 = not self.view_1
+        if 'final_tracks' not in st.session_state:
+            st.session_state['final_tracks'] = pd.DataFrame()
+
 
     def click_view_button(self):
         st.session_state.clicked = not st.session_state.clicked
@@ -71,7 +80,6 @@ class UI():
                                 'uri': None},
                     disabled=df.columns
                 )
-                
 
                 self.selected_rows = edited_df[edited_df.Select]
                 self.tracks = self.selected_rows.drop('Select', axis=1)  # selceted tracks
@@ -90,24 +98,64 @@ class UI():
                                             on_click=self.get_output_playlist)
             
             with self.col1:
+                #
+                # ToDo: implement drag and drop as in https://discuss.streamlit.io/t/drag-and-drop-rows-in-a-dataframe/33077/3
+                #
                 df_with_selections = self.tracks.copy()
-                df_with_selections.insert(0, "Select", False)
-                edited_df = st.data_editor(
+                df_with_selections.insert(0, "zone", np.repeat(self.zones[0], len(df_with_selections.index)))
+                df_with_selections.drop('uri', axis=1, inplace=True)  # dont show uri
+                self.edit_tracks = st.data_editor(
                     df_with_selections,
                     hide_index=True,
-                    column_config={"Select": st.column_config.CheckboxColumn(required=True),
-                                'uri': None},
+                    column_config={
+                        "zone": st.column_config.SelectboxColumn(
+                            "Zone",
+                            help="Zone to ride at",
+                            width="small",
+                            options=self.zones,
+                            required=True,
+                        )
+                    },
                     disabled=self.tracks.columns
                 )
+                # TODO: add category to tracks
+                # selected_rows = edited_df[edited_df.Select]
+                # tracks = selected_rows.drop('cate', axis=1)  # selceted tracks
+                if len(self.tracks) > 0:
+                    st.session_state['final_tracks'] = self.tracks
+
+            with self.sidebar:
+                df = pd.DataFrame()
+                df['zone'] = self.zones
+                df['total time'] = 0
+                df.set_index('zone', inplace=True)
+                for z in self.zones:
+                    df.loc[z, 'total time'] = self.time_sum(list(self.edit_tracks[self.edit_tracks['zone'] == z]['length']))
+                st.dataframe(df)
+
+    def time_sum(self, l):
+        """
+        sum up time of tracks in list and retunr as str
+        """
+        seconds = 0
+        for i in l:
+            seconds += 60 * int(i.split(':')[0])
+            seconds += int(i.split(':')[1])
+        return convert_seconds(seconds)
 
     def get_output_playlist(self):
+        """
+        create output playlist from selected tracks
+        """
         print('Creating output playlist...')
         self.playlist = self.sp.user_playlist_create(self.user, self.new_pl_name,
-                                                     self.tracks,
                                            self.pl_public, self.pl_description)
 
-        self.sp.user_playlist_add_tracks(
-            self.user,
-            self.playlist['id'],
-            list(self.tracks['uri'])
-        )
+        try:
+            self.sp.user_playlist_add_tracks(
+                self.user,
+                self.playlist['id'],
+                list(st.session_state['final_tracks']['uri'])
+            )
+        except:
+            print('Error adding tracks to playlist')

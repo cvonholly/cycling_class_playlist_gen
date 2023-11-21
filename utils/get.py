@@ -3,6 +3,9 @@ import spotipy as sp
 
 
 def convert_seconds(seconds):
+    """
+    converts seconds to str(minutes:seconds)
+    """
     try:
         seconds = int(seconds)
     except:
@@ -10,6 +13,13 @@ def convert_seconds(seconds):
     minutes = seconds // 60  # Get the whole number of minutes
     remaining_seconds = seconds % 60  # Get the remaining seconds
     return f"{minutes:02d}:{remaining_seconds:02d}"
+
+def convert_to_seconds(time):
+    """
+    converts str(minutes:seconds) to seconds
+    """
+    minutes, seconds = time.split(':')
+    return int(minutes)*60 + int(seconds)
 
 
 
