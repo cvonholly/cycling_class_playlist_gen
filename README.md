@@ -8,7 +8,7 @@ Manual [BPM Tap Tool](https://www.all8.com/tools/bpm.htm)
 - Python 3.x
 - .venv (for setup)
   - [streamlit](https://docs.streamlit.io/library/get-started/installation)
-  - spotipy
+  - [spotipy](https://spotipy.readthedocs.io/en/2.22.1/)
 
 ## Setup
 
