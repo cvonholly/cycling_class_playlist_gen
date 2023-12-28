@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, JsCode
 
-def build_dad(df):
+def build_dad(df, zones):
     # JavaScript functions for row manipulation
     onRowDragEnd = JsCode("""
     function onRowDragEnd(e) {
@@ -52,6 +52,9 @@ def build_dad(df):
     # Building grid options
     gb = GridOptionsBuilder.from_dataframe(df)
     gb.configure_default_column(rowDrag=True, rowDragManaged=True, rowDragEntireRow=True)
+    gb.configure_column('zone', editable=True, 
+                        cellEditor='agSelectCellEditor',
+                        cellEditorParams={'values': zones})  # Configuring the first column as editable with a select box
     gb.configure_grid_options(
         rowDragManaged=True,
         onRowDragEnd=onRowDragEnd,
@@ -70,7 +73,7 @@ def build_dad(df):
         update_mode=GridUpdateMode.MANUAL
     )
 
-    return st.write(data['data'])
+    return data['data']  # st.write(data['data'])
 
 # old:
 # import streamlit as st  # pip install streamlit=1.12.0

@@ -21,8 +21,9 @@ Manual [BPM Tap Tool](https://www.all8.com/tools/bpm.htm)
 
 
 ## To Dev
-- Drag and drop functionality in table
+- ~~Drag and drop functionality in table~~ --done
+    - adapt total time table headers/integration
 - save selected playlists and songs (e.g. via `st.session_state`)
     - issues: certain objects are not saved while others are
-- add Text input for new playlist name
+- ~~add Text input for new playlist name~~  --done
 - export to google sheets or excel (should be easy with dataframe)

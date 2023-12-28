@@ -91,8 +91,8 @@ class UI():
 
 
                 # test drag and drop
-                df_drag_and_drop = build_dad(df_with_selections)
-                st.write(df_drag_and_drop)
+                # df_drag_and_drop = build_dad(df_with_selections)
+                # st.write(df_drag_and_drop)
 
         #
         # view 2
@@ -102,6 +102,7 @@ class UI():
             with self.col2:
                 but = st.button('<- Back',
                                 on_click=self.click_view_button)
+                self.new_pl_name = st.text_input('Playlist Name: ', value=self.new_pl_name)
                 button_generate = st.button('Generate New Playlist',
                                             on_click=self.get_output_playlist)
             
@@ -112,20 +113,22 @@ class UI():
                 df_with_selections = self.tracks.copy()
                 df_with_selections.insert(0, "zone", np.repeat(self.zones[0], len(df_with_selections.index)))
                 df_with_selections.drop('uri', axis=1, inplace=True)  # dont show uri
-                self.edit_tracks = st.data_editor(
-                    df_with_selections,
-                    hide_index=True,
-                    column_config={
-                        "zone": st.column_config.SelectboxColumn(
-                            "Zone",
-                            help="Zone to ride at",
-                            width="small",
-                            options=self.zones,
-                            required=True,
-                        )
-                    },
-                    disabled=self.tracks.columns
-                )
+                self.edit_tracks = build_dad(df_with_selections, self.zones)
+
+                # self.edit_tracks = st.data_editor(
+                #     build_dad(df_with_selections),  # df_with_selections,
+                #     hide_index=True,
+                #     column_config={
+                #         "zone": st.column_config.SelectboxColumn(
+                #             "Zone",
+                #             help="Zone to ride at",
+                #             width="small",
+                #             options=self.zones,
+                #             required=True,
+                #         )
+                #     },
+                #     disabled=self.tracks.columns
+                # )
                 if len(self.tracks) > 0:
                     st.session_state['final_tracks'] = self.tracks
 
