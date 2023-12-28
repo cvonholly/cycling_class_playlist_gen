@@ -1,8 +1,11 @@
 # packages
 import streamlit as st
+import numpy as np
+# utils
 from utils.playlist_input import *
 from utils.get import *
-import numpy as np
+from utils.drag_and_drop import *
+
 
 
 
@@ -85,6 +88,11 @@ class UI():
                 self.tracks = self.selected_rows.drop('Select', axis=1)  # selceted tracks
                 if len(self.tracks) > 0:
                     st.session_state['tracks'] = self.tracks
+
+
+                # test drag and drop
+                df_drag_and_drop = build_dad(df_with_selections)
+                st.write(df_drag_and_drop)
 
         #
         # view 2
