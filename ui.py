@@ -108,7 +108,7 @@ class UI():
             with self.col1:
                 #
                 # ToDo: implement drag and drop as in https://discuss.streamlit.io/t/drag-and-drop-rows-in-a-dataframe/33077/3
-                #
+                # 
                 df_with_selections = self.tracks.copy()
                 df_with_selections.insert(0, "zone", np.repeat(self.zones[0], len(df_with_selections.index)))
                 df_with_selections.drop('uri', axis=1, inplace=True)  # dont show uri

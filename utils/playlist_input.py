@@ -2,11 +2,13 @@ import streamlit as st
 import pandas as pd
 
 
-def playlist_interact(df_with_selections, df):
+def playlist_interact(df):
     """
     returns selected playlists, edited df
     """
     # Get dataframe row-selections from user with st.data_editor
+    df_with_selections = df.copy()
+    df_with_selections.insert(0, "Select", False)
     edited_df = st.data_editor(
         df_with_selections,
         hide_index=True,
