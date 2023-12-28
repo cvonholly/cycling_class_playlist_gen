@@ -19,3 +19,11 @@ Manual [BPM Tap Tool](https://www.all8.com/tools/bpm.htm)
 5. In the web browser pop-up, allow the application access to your spotify account
 6. Enjoy! Select your favourite playlists, sort for the reuired songs and create a new workout with these.
 
+
+## To Dev
+- ~~Drag and drop functionality in table~~ --done
+    - adapt total time table headers/integration
+- save selected playlists and songs (e.g. via `st.session_state`)
+    - issues: certain objects are not saved while others are
+- ~~add Text input for new playlist name~~  --done
+- export to google sheets or excel (should be easy with dataframe)
