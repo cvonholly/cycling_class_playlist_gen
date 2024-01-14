@@ -1,4 +1,5 @@
 # Ultimate AI Cycling Class Playlist Generator
+_this repo is in development and not ready yet to deploy_
 A helpful tool to automatically create playlist's with the tracks fulfilling a number of characteristics such as BPM, length, energy and more.
 
 Manual [BPM Tap Tool](https://www.all8.com/tools/bpm.htm)
