@@ -1,6 +1,6 @@
 import pandas as pd
 import spotipy as sp
-
+import streamlit as st
 
 def convert_seconds(seconds):
     """
@@ -22,7 +22,7 @@ def convert_to_seconds(time):
     return int(minutes)*60 + int(seconds)
 
 
-
+@st.cache_data
 def get_profile_playlists(sp) -> (pd.DataFrame(), dict):
     """
     returns current user playlists
@@ -31,6 +31,7 @@ def get_profile_playlists(sp) -> (pd.DataFrame(), dict):
     playlist_names = [x['name'] for x in dic['items']]
     return (pd.DataFrame(playlist_names), dic)
 
+@st.cache_data
 def get_data(sp,
              pl_url: [],   # list of urls
              headers=['tempo', 'duration_ms'],   # headers to get

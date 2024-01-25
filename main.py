@@ -1,6 +1,7 @@
 from utils.get_token import scope, client_id, client_secret, redirect_uri
 import spotipy.util as util
 from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyOAuth
 import ui
 import os
 import spotipy
@@ -9,9 +10,10 @@ from ui import UI
 
 
 # input
-username = 'carlvonholly'
+username = 'jhearsmusic'
 
 def main():
+    
     try:
         token = util.prompt_for_user_token(username, scope,
                                    client_id=client_id,
@@ -23,7 +25,7 @@ def main():
             sp = spotipy.Spotify(auth=token)
         else:
             print('Authenticaion failed, aborting')
-        # sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
+        #sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
     except:
         print('Authentication failed, aborting!')
 

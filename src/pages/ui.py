@@ -53,10 +53,15 @@ class UI():
         st.session_state.clicked = not st.session_state.clicked
 
     def build(self):
+        with self.col1:
+            st.write("""# Cycling Class Playlist Generator""")
+        
         #
         # 1st view
         #
         if not st.session_state.clicked:
+            with self.col1:
+                st.write("""## Playlist Selector""")
             with self.col2:
                 button_c = st.button('continue ->',
                                 on_click=self.click_view_button
